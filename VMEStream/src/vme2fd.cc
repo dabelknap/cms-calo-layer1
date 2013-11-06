@@ -12,7 +12,7 @@
 
 #include "VMEController.h"
 #include "VMEStream.h"
-#include "VMEStreamAddress.h"
+#include "VMEStreamAddress_VME.h"
 #include "bytebuffer.h"
 
 #define DATAWIDTH 4
