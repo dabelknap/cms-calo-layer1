@@ -1,5 +1,5 @@
 CFLAGS:=-g -Wall -Iinclude -I$(SOFTIPBUS)/include -I/opt/xdaq/include/ -std=c99
-CXXFLAGS:=-g -Wall -Iinclude -I$(SOFTIPBUS)/include -I/opt/xdaq/include/ -DLINUX -DLOG_LEVEL=0x0
+CXXFLAGS:=-Wall -Iinclude -I$(SOFTIPBUS)/include -I/opt/xdaq/include/ -DLINUX -DLOG_LEVEL=0x0
 LDFLAGS:=-L/opt/xdaq/lib/ -lCAENVME -llog4cplus
 CC=gcc
 CXX=g++

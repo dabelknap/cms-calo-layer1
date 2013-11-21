@@ -56,6 +56,18 @@ void vmestream_destroy_heap(VMEStream *stream)
 }
 
 
+void vmestream_print(VMEStream *stream)
+{
+    printf("VMEStream contents:\n");
+    printf("  tx_size (%p): %d\n", stream->tx_size, *(stream->tx_size));
+    printf("  rx_size (%p): %d\n", stream->rx_size, *(stream->rx_size));
+    printf("  tx_data (%p): %d\n", stream->tx_data, stream->tx_data[0]);
+    printf("  rx_data (%p): %d\n", stream->rx_data, stream->rx_data[0]);
+
+    return;
+}
+
+
 int vmestream_transfer_data(VMEStream *stream)
 {
     if (!stream) return -1;

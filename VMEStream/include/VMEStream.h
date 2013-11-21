@@ -39,6 +39,8 @@ VMEStream *vmestream_initialize_mem(
 // Free memory allocated by the vmestream_initialize_heap function.
 void vmestream_destroy_heap(VMEStream *stream);
 
+void vmestream_print(VMEStream *stream);
+
 // Swap data from the circular buffers to the VME transfer RAMs, according to
 // the VMEStream protocol. Calling this will move (if possible) data from
 // stream->input into stream->tx_data, and (if possible) from stream->rx_data

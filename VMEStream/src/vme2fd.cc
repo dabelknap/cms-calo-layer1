@@ -22,6 +22,12 @@
 
 #define MIN(x, y) ( (x) < (y) ? (x) : (y) )
 
+using std::cout;
+using std::endl;
+
+void test_flag(int a) {
+    printf("Test point: %d\n", a);
+}
 
 void pc2orsc_server(char* in_pipe, char* out_pipe)
 {
@@ -41,12 +47,15 @@ void pc2orsc_server(char* in_pipe, char* out_pipe)
 
     // Initialize RAM size registers to zero
     uint32_t zero = 0;
-    vme->write(PC_2_ORSC_SIZE, DATAWIDTH, &zero);
-    vme->write(ORSC_2_PC_SIZE, DATAWIDTH, &zero);
+    cout << vme->write(PC_2_ORSC_SIZE, DATAWIDTH, &zero) << endl;
+    cout << vme->write(ORSC_2_PC_SIZE, DATAWIDTH, &zero) << endl;
+
+    int counter = 1;
 
     while (1) {
         // the size of the read buffer will be dynamically resized
         // as necessary.
+        printf("-- Loop %d --\n", counter++);
         bytebuffer_read_fd(&buf, fin, READ_BUFFER_SIZE);
 
         uint32_t words_to_append = MIN(
@@ -59,9 +68,14 @@ void pc2orsc_server(char* in_pipe, char* out_pipe)
         // pop off read words, leaving any fractional words in the input buffer
         bytebuffer_del_front(&buf, words_to_append * sizeof(uint32_t));
 
-        vme->read(PC_2_ORSC_SIZE, DATAWIDTH, stream->tx_size);
-        vme->read(ORSC_2_PC_SIZE, DATAWIDTH, stream->rx_size);
+        test_flag(0);
+        vmestream_print(stream);
 
+        cout << vme->read(PC_2_ORSC_SIZE, DATAWIDTH, stream->tx_size) << endl;
+        cout << vme->read(ORSC_2_PC_SIZE, DATAWIDTH, stream->rx_size) << endl;
+
+        test_flag(1);
+        vmestream_print(stream);
         if (*(stream->rx_size) > 0) {
             vme->block_read(ORSC_2_PC_DATA, DATAWIDTH, stream->rx_data,
                     *(stream->rx_size) * sizeof(uint32_t));
@@ -74,8 +88,12 @@ void pc2orsc_server(char* in_pipe, char* out_pipe)
                     *(stream->tx_size) * sizeof(uint32_t));
         }
 
-        vme->write(PC_2_ORSC_SIZE, DATAWIDTH, stream->tx_size);
-        vme->write(ORSC_2_PC_SIZE, DATAWIDTH, stream->rx_size);
+        test_flag(4);
+        vmestream_print(stream);
+        cout << vme->write(PC_2_ORSC_SIZE, DATAWIDTH, stream->tx_size) << endl;
+        cout << vme->write(ORSC_2_PC_SIZE, DATAWIDTH, stream->rx_size) << endl;
+        test_flag(5);
+        vmestream_print(stream);
 
         // if stream->ouput has data, then output it
         uint32_t n_words = cbuffer_size(stream->output);
@@ -83,7 +101,7 @@ void pc2orsc_server(char* in_pipe, char* out_pipe)
             cbuffer_write_fd(stream->output, fout, n_words);
         }
         // Do any desired emulation. In production, this does nothing.
-        vme->doStuff();
+        //vme->doStuff();
     }
 
     close(fin);

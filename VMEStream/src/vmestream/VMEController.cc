@@ -3,8 +3,8 @@
 #include <cstring>
 
 #include "VMEController.h"
-#include "OrscEchoEmulator.h"
-#include "OrscIpbusEmulator.h"
+//#include "OrscEchoEmulator.h"
+//#include "OrscIpbusEmulator.h"
 #include "caen.h"
 #include "null.h"
 
@@ -19,14 +19,14 @@ VMEController::getVMEController()
         if(strcmp(environment, "CAEN") == 0) {
             return caen::getVMEController();
         }
-        else if (strcmp(environment, "TESTECHO") == 0) {
-            std::cerr << "Emulating oRSC with Echo" << std::endl;
-            return OrscEchoEmulator::getVMEController();
-        }
-        else if (strcmp(environment, "TESTIPBUS") == 0) {
-            std::cerr << "Emulating oRSC as an IPBus Server" << std::endl;
-            return OrscIpbusEmulator::getVMEController();
-        }
+//        else if (strcmp(environment, "TESTECHO") == 0) {
+//            std::cerr << "Emulating oRSC with Echo" << std::endl;
+//            return OrscEchoEmulator::getVMEController();
+//        }
+//        else if (strcmp(environment, "TESTIPBUS") == 0) {
+//            std::cerr << "Emulating oRSC as an IPBus Server" << std::endl;
+//            return OrscIpbusEmulator::getVMEController();
+//        }
         else {
             std::cerr << "VME_CONTROLLER not set properly!" << std::endl;;
             std::cerr << 
